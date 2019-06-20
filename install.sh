@@ -9,8 +9,6 @@ OHMYZSH="$HOME/.oh-my-zsh"
 # clone oh-my-zsh
 git clone https://github.com/robbyrussell/oh-my-zsh.git $OHMYZSH
 
-ln -s "$CURRFOLDER/oh-my-zsh/paulgit.zsh-theme" "$OHMYZSH/custom/themes/paulgit.zsh-theme"
-
 # Create backup folder
 mkdir -p "$BACKUPFOLDER"
 cp "$HOME/$ZSHRC" "$BACKUPFOLDER"

@@ -1,6 +1,1 @@
-# custom files
-oh-my-zsh/custom/
-
-# temp files directories
-oh-my-zsh/cache/
-oh-my-zsh/log/
+.DS_Store
