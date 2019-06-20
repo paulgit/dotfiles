@@ -1,9 +1,17 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
 
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
-export LANGUAGE=en_US.UTF-8
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
+# * ~/.path can be used to extend `$PATH`.
+if [ -r "$HOME/.path" ] && [ -f "$HOME/.path" ]; then
+  source "$HOME/.path";
+fi
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -81,7 +89,10 @@ source $ZSH/oh-my-zsh.sh
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
+export LS_COLORS="di=1;36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -133,23 +144,25 @@ export HISTFILE=~/.zsh_history    # ensure history file visibility
 export HSTR_CONFIG=hicolor        # get more colors
 bindkey -s "\C-r" "\eqhstr\n"     # bind hstr to Ctrl-r (for Vi mode check doc)
 
-# Handle tmux stuff
-if [[ "${USER}" != "root" ]]; then
-  # Override the exit command so that it detaches from tmux if run in tmux
-  exit() {
-	  if [[ -z $TMUX ]]; then
-      builtin exit
-	  else
-      tmux detach
-	  fi
-  }
+if [[ -e "$HOME/.tmuxenabled" ]]; then
+	# Handle tmux stuff
+	if [[ "${USER}" != "root" ]]; then
+	  # Override the exit command so that it detaches from tmux if run in tmux
+	  exit() {
+		  if [[ -z $TMUX ]]; then
+	      builtin exit
+		  else
+	      tmux detach
+		  fi
+	  }
 
-  # Re-attach to an existing tmux session
-  if [[ -z "$TMUX" ]]; then
-    if tmux has-session 2>/dev/null; then
-      exec tmux attach
-    else
-      exec tmux
-    fi
-  fi
+	  # Re-attach to an existing tmux session
+	  if [[ -z "$TMUX" ]]; then
+	    if tmux has-session 2>/dev/null; then
+	      exec tmux attach
+	    else
+	      exec tmux
+	    fi
+	  fi
+	fi
 fi
