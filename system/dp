@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# Author  : Paul Rudkin (paul@rudkin.me.uk)
+# Version : 1.0
+# Date    : 2017-03-25
+#
+# Purpose : Duplicate a file and append the current date time stamp
+#
+# Usage   : dp {filename}
+#
+# Install : Copy to /usr/local/bin and ensure it has executable permissions
+#
+if [ $# -eq 0 ]; then
+    echo "No filename provided"
+    exit 1
+fi
+
+echo "$1 -> $1.`date +%Y.%m.%d.%H.%M.%S`"
+cp ${1}{,.`date +%Y.%m.%d.%H.%M.%S`}
