@@ -80,7 +80,7 @@ ZSH_CUSTOM=~/.dotfiles/oh-my-zsh/custom
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git copyfile common-aliases)
+plugins=(git copyfile extract common-aliases)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -126,14 +126,6 @@ alias lsd="ls -lF --color | grep --color=never '^d'"
 
 # Always use color output for `ls`
 alias ls="command ls --color"
-
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
-alias ~="cd ~" # `cd` is probably faster to type though
-alias -- -="cd -"
-alias g="git"
 
 # Print each PATH entry on a separate line
 alias path='echo -e ${PATH//:/\\n}'
