@@ -3,6 +3,7 @@
 # Get the current folder
 INSTALLFOLDER=$PWD
 BACKUPFOLDER=$HOME/.dotfiles-backup
+SYSBINFOLDER="/usr/local/bin"
 USRBINFOLDER="$HOME/bin"
 MCCONFIGFOLDER="$HOME/.config/mc"
 MCSKINSFOLDER="$HOME/.local/share/mc/skins"
@@ -35,17 +36,17 @@ unset FILE;
 
 # Create the symbolic link to our files
 for FILE in $DOTFILES; do
-	[ -e "$INSTALLFOLDER/$FILE" ] && ln -s "$INSTALLFOLDER/$FILE" "$HOME/.$FILE";
+	[ -e "$INSTALLFOLDER/dotfiles/$FILE" ] && ln -s "$INSTALLFOLDER/$FILE" "$HOME/.$FILE";
 done;
 unset FILE;
 
 # OS specific stuff
 if [[ "$OSTYPE" == "darwin"* ]]; then # macOS
   # .zshrc file symbolic link
-  ln -s "$INSTALLFOLDER/zshrc-macos" "$HOME/$ZSHRC"
+  ln -s "$INSTALLFOLDER/dotfiles/zshrc-macos" "$HOME/$ZSHRC"
 elif [[ "$OSTYPE" == "linux-gnu" ]]; then # Linux
   # .zshrc file symbolic link
-  ln -s "$INSTALLFOLDER/zshrc-linux" "$HOME/$ZSHRC"
+  ln -s "$INSTALLFOLDER/dotfiles/zshrc-linux" "$HOME/$ZSHRC"
 
   # If the bin folder doesn't exist, the create it
   if [[ ! -d "$USRBINFOLDER" ]]; then
@@ -53,11 +54,11 @@ elif [[ "$OSTYPE" == "linux-gnu" ]]; then # Linux
   fi
 
   # update all the bin files
-  cp -a "$INSTALLFOLDER/bin/." "$USRBINFOLDER"
+  cp -a "$INSTALLFOLDER/user-bin/." "$USRBINFOLDER"
 
   # Copy system wide fies to /usr/local/bin (if they don't already exist)
   for FILE in $SYSBINFILES; do
-     [ ! -e "$SYSBINFOLDER/$FILE" ] && sudo cp "$INSTALLFOLDER/system/$FILE" "$SYSBINFOLDER"
+     [ ! -e "$SYSBINFOLDER/$FILE" ] && sudo cp "$INSTALLFOLDER/system-bin/$FILE" "$SYSBINFOLDER"
   done;
   unset FILE;
 fi
@@ -73,6 +74,6 @@ mkdir -p $MCSKINSFOLDER &> /dev/null
 if [ -f "$MCCONFIGFOLDER/ini" ]; then
 	sed -i 's/skin=.*/skin=pgdark/' "$MCCONFIGFOLDER/ini"
 else
-	cp "$INSTALLFOLDER/mc/ini" "$MCCONFIGFOLDER/ini"
+	cp "$INSTALLFOLDER/dotfiles/mc/ini" "$MCCONFIGFOLDER/ini"
 fi
-cp "$INSTALLFOLDER/mc/pgdark.ini" "$MCSKINSFOLDER/pgdark.ini"
+cp "$INSTALLFOLDER/dotfiles/mc/pgdark.ini" "$MCSKINSFOLDER/pgdark.ini"
