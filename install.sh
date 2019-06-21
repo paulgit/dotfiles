@@ -36,7 +36,7 @@ unset FILE;
 
 # Create the symbolic link to our files
 for FILE in $DOTFILES; do
-	[ -e "$INSTALLFOLDER/dotfiles/$FILE" ] && ln -s "$INSTALLFOLDER/$FILE" "$HOME/.$FILE";
+	[ -e "$INSTALLFOLDER/dotfiles/$FILE" ] && ln -s "$INSTALLFOLDER/dotfiles/$FILE" "$HOME/.$FILE";
 done;
 unset FILE;
 
