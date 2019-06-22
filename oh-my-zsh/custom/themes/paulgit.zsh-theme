@@ -29,6 +29,7 @@ if [[ $terminfo[colors] -ge 256 ]]; then
     green="%F{107}"
     dirtyyellow="%F{136}"
     redonwhite="%K{15}%F{124}"
+    whiteonred="%K{124}%F{15}"
     violet="%F{147}"
 else
     turquoise="%F{cyan}"
@@ -39,8 +40,16 @@ else
     green="%F{green}"
     dirtyyellow="%F{yellow}"
     redonwhite="%F{red}"
+    whiteonred="%F{white}"
     violet="%F{magenta}"
 fi
+
+# Highlight the user name when logged in as root.
+if [[ "${USER}" == "root" ]]; then
+	userstyle=$whiteonred;
+else
+	userstyle=$orange;
+fi;
 
 # enable VCS systems you use
 zstyle ':vcs_info:*' enable git svn
@@ -109,5 +118,5 @@ add-zsh-hook precmd paulgit_precmd
 
 PROMPT=$'
 %{$redonwhite%}%(?.. %? )%k
-%{$orange%}%n${PR_RST} at %{$dirtyyellow%}%m${PR_RST} in %{$green%}%~${PR_RST} $vcs_info_msg_0_$(virtualenv_info)
+%{$userstyle%}%n${PR_RST}%k at %{$dirtyyellow%}%m${PR_RST} in %{$green%}%~${PR_RST} $vcs_info_msg_0_$(virtualenv_info)
 $ '
