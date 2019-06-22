@@ -1,122 +1,125 @@
-# prompt style and colors based on Steve Losh's Prose theme:
-# https://github.com/sjl/oh-my-zsh/blob/master/themes/prose.zsh-theme
-#
-# vcs_info modifications from Bart Trojanowski's zsh prompt:
-# http://www.jukie.net/bart/blog/pimping-out-zsh-prompt
-#
-# git untracked files modification from Brian Carper:
-# https://briancarper.net/blog/570/git-info-in-your-zsh-prompt
+# paulgit theme for oh-my-zsh
+# Based on zeta-zsh-theme https://github.com/skylerlee/zeta-zsh-theme
+# and customised to my tastes
 
-export VIRTUAL_ENV_DISABLE_PROMPT=1
+# Colors: black|red|blue|green|yellow|magenta|cyan|white
+local black=$fg[black]
+local red=$fg[red]
+local blue=$fg[blue]
+local green="%F{107}"
+local yellow=$fg[yellow]
+local magenta=$fg[magenta]
+local cyan=$fg[cyan]
+local white="%F{15}"
+local dirtyyellow="%F{136}"
+local orange="%F{166}"
 
-function virtualenv_info {
-    [ $VIRTUAL_ENV ] && echo '('%F{blue}`basename $VIRTUAL_ENV`%f') '
+local black_bold=$fg_bold[black]
+local red_bold=$fg_bold[red]
+local blue_bold=$fg_bold[blue]
+local green_bold=$fg_bold[green]
+local yellow_bold=$fg_bold[yellow]
+local magenta_bold=$fg_bold[magenta]
+local cyan_bold=$fg_bold[cyan]
+local white_bold=$fg_bold[white]
+
+local highlight_bg="%K{124}"
+
+local promptchar='$'
+
+# Machine name.
+function get_box_name {
+    if [ -f ~/.box-name ]; then
+        cat ~/.box-name
+    else
+        echo "%m"
+    fi
 }
-PR_GIT_UPDATE=1
 
-setopt prompt_subst
+# User name.
+function get_usr_name {
+    local name="%n"
+    if [[ "$USER" == 'root' ]]; then
+        name="%{$highlight_bg%}%{$white%}$name%{$reset_color%}"
+    fi
+    echo $name
+}
+
+# Directory info.
+function get_current_dir {
+    echo "${PWD/#$HOME/~}"
+}
+
+# Git info.
+ZSH_THEME_GIT_PROMPT_PREFIX="%{$magenta_bold%}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$green_bold%} ✔ "
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$red_bold%} ✘ "
+
+# Git status.
+ZSH_THEME_GIT_PROMPT_ADDED="%{$green_bold%}+"
+ZSH_THEME_GIT_PROMPT_DELETED="%{$red_bold%}-"
+ZSH_THEME_GIT_PROMPT_MODIFIED="%{$magenta_bold%}!"
+ZSH_THEME_GIT_PROMPT_RENAMED="%{$blue_bold%}>"
+ZSH_THEME_GIT_PROMPT_UNMERGED="%{$cyan_bold%}="
+ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$yellow_bold%}?"
+
+# Git sha.
+ZSH_THEME_GIT_PROMPT_SHA_BEFORE="[%{$yellow%}"
+ZSH_THEME_GIT_PROMPT_SHA_AFTER="%{$reset_color%}]"
+
+function get_git_prompt {
+    if [[ -n $(git rev-parse --is-inside-work-tree 2>/dev/null) ]]; then
+        local git_status="$(git_prompt_status)"
+        if [[ -n $git_status ]]; then
+            git_status="[$git_status%{$reset_color%}]"
+        fi
+        local git_prompt=" <$(git_prompt_info)$git_status>"
+        echo $git_prompt
+    fi
+}
+
+function get_time_stamp {
+    echo "%*"
+}
+
+function get_space {
+    local str=$1$2
+    local zero='%([BSUbfksu]|([FB]|){*})'
+    local len=${#${(S%%)str//$~zero/}}
+    local size=$(( $COLUMNS - $len - 1 ))
+    local space=""
+    while [[ $size -gt 0 ]]; do
+        space="$space "
+        let size=$size-1
+    done
+    echo $space
+}
+
+# Prompt: # USER@MACHINE: DIRECTORY <BRANCH [STATUS]> --- (TIME_STAMP)
+# > command
+function print_prompt_head {
+    local left_prompt="\
+%{$orange%}$(get_usr_name)\
+%{$white%} at \
+%{$dirtyyellow%}$(get_box_name): \
+%{$green%}$(get_current_dir)%{$reset_color%}\
+$(get_git_prompt) "
+    local right_prompt="%{$white%}(%{$blue%}$(get_time_stamp)%{$white%})%{$reset_color%} "
+    print -rP "$left_prompt$(get_space $left_prompt $right_prompt)$right_prompt"
+}
+
+function get_prompt_indicator {
+    if [[ $? -eq 0 ]]; then
+        echo "%{$white%}$promptchar %{$reset_color%}"
+    else
+        echo "%{$red_bold%}$promptchar %{$reset_color%}"
+    fi
+}
 
 autoload -U add-zsh-hook
-autoload -Uz vcs_info
+add-zsh-hook precmd print_prompt_head
+setopt prompt_subst
 
-#use extended color palette if available
-if [[ $terminfo[colors] -ge 256 ]]; then
-    turquoise="%F{81}"
-    orange="%F{166}"
-    purple="%F{135}"
-    hotpink="%F{161}"
-    limegreen="%F{118}"
-    green="%F{107}"
-    dirtyyellow="%F{136}"
-    redonwhite="%K{15}%F{124}"
-    whiteonred="%K{124}%F{15}"
-    violet="%F{147}"
-else
-    turquoise="%F{cyan}"
-    orange="%F{yellow}"
-    purple="%F{magenta}"
-    hotpink="%F{red}"
-    limegreen="%F{green}"
-    green="%F{green}"
-    dirtyyellow="%F{yellow}"
-    redonwhite="%F{red}"
-    whiteonred="%F{white}"
-    violet="%F{magenta}"
-fi
-
-# Highlight the user name when logged in as root.
-if [[ "${USER}" == "root" ]]; then
-	userstyle=$whiteonred;
-else
-	userstyle=$orange;
-fi;
-
-# enable VCS systems you use
-zstyle ':vcs_info:*' enable git svn
-
-# check-for-changes can be really slow.
-# you should disable it, if you work with large repositories
-zstyle ':vcs_info:*:prompt:*' check-for-changes true
-
-# set formats
-# %b - branchname
-# %u - unstagedstr (see below)
-# %c - stagedstr (see below)
-# %a - action (e.g. rebase-i)
-# %R - repository path
-# %S - path in the repository
-PR_RST="%f"
-FMT_BRANCH="(%{$violet%}%b%u%c${PR_RST})"
-FMT_ACTION="(%{$limegreen%}%a${PR_RST})"
-FMT_UNSTAGED="%{$orange%}●"
-FMT_STAGED="%{$limegreen%}●"
-
-zstyle ':vcs_info:*:prompt:*' unstagedstr   "${FMT_UNSTAGED}"
-zstyle ':vcs_info:*:prompt:*' stagedstr     "${FMT_STAGED}"
-zstyle ':vcs_info:*:prompt:*' actionformats "${FMT_BRANCH}${FMT_ACTION}"
-zstyle ':vcs_info:*:prompt:*' formats       "${FMT_BRANCH}"
-zstyle ':vcs_info:*:prompt:*' nvcsformats   ""
-
-
-function paulgit_preexec {
-    case "$2" in
-        *git*)
-            PR_GIT_UPDATE=1
-            ;;
-        *hub*)
-            PR_GIT_UPDATE=1
-            ;;
-        *svn*)
-            PR_GIT_UPDATE=1
-            ;;
-    esac
-}
-add-zsh-hook preexec paulgit_preexec
-
-function paulgit_chpwd {
-    PR_GIT_UPDATE=1
-}
-add-zsh-hook chpwd paulgit_chpwd
-
-function paulgit_precmd {
-    if [[ -n "$PR_GIT_UPDATE" ]] ; then
-        # check for untracked files or updated submodules, since vcs_info doesn't
-        if git ls-files --other --exclude-standard 2> /dev/null | grep -q "."; then
-            PR_GIT_UPDATE=1
-            FMT_BRANCH="on [%{$violet%}%b%u%c%{$turquoise%}●${PR_RST}]"
-        else
-            FMT_BRANCH="on [%{$violet%}%b%u%c${PR_RST}]"
-        fi
-        zstyle ':vcs_info:*:prompt:*' formats "${FMT_BRANCH} "
-
-        vcs_info 'prompt'
-        PR_GIT_UPDATE=
-    fi
-
-}
-add-zsh-hook precmd paulgit_precmd
-
-PROMPT=$'
-%{$redonwhite%}%(?.. %? )%k
-%{$userstyle%}%n${PR_RST}%k at %{$dirtyyellow%}%m${PR_RST} in %{$green%}%~${PR_RST} $vcs_info_msg_0_$(virtualenv_info)
-$ '
+PROMPT='$(get_prompt_indicator)'
+RPROMPT='$(git_prompt_short_sha) '
