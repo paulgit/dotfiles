@@ -61,6 +61,13 @@ elif [[ "$OSTYPE" == "linux-gnu" ]]; then # Linux
      [ ! -e "$SYSBINFOLDER/$FILE" ] && sudo cp "$INSTALLFOLDER/system-bin/$FILE" "$SYSBINFOLDER"
   done;
   unset FILE;
+
+  # Build the plugin for tmux if it doesn't already exist
+  if [[ ! -e "$SYSBINFOLDER/tmux-mem-cpu-load" ]]; then
+  	cd $INSTALLFOLDER && git submodule init && git submodule update
+  	cd $INSTALLFOLDER/vendor/tmux-mem-cpu-load && cmake . && make && sudo make install
+  fi
+
 fi
 
 # Midnight Commander
