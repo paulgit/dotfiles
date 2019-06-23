@@ -130,6 +130,11 @@ alias ls="command ls --color"
 # Print each PATH entry on a separate line
 alias path='echo -e ${PATH//:/\\n}'
 
+# Apt aliases for an easy life
+alias update="sudo apt update"
+alias upgrade="sudo apt upgrade"
+alias clean="sudo apt autoremove"
+
 # HSTR configuration
 alias hh=hstr                     # hh to be alias for hstr
 export HISTFILE=~/.zsh_history    # ensure history file visibility
