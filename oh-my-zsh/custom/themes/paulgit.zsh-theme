@@ -26,6 +26,7 @@ local white_bold=$fg_bold[white]
 local highlight_bg="%K{124}"
 
 local promptchar='$'
+local fail='🔥'
 
 # Machine name.
 function get_box_name {
@@ -113,7 +114,7 @@ function get_prompt_indicator {
     if [[ $? -eq 0 ]]; then
         echo "%{$white%}$promptchar %{$reset_color%}"
     else
-        echo "%{$red_bold%}$promptchar %{$reset_color%}"
+        echo "$fail "
     fi
 }
 
