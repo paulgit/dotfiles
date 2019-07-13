@@ -27,7 +27,7 @@ local highlight_bg="%K{124}"
 
 local promptchar='➤'
 local fail='🔥'
-local success='👍'
+local success='👍🏼'
 
 # Machine name.
 function get_box_name {
