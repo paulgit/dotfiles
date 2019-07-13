@@ -27,7 +27,13 @@ local highlight_bg="%K{124}"
 
 local promptchar='➤'
 local fail='🔥'
-local success='👍🏼'
+
+if [[ "$OSTYPE" == "darwin"* ]]; then # macOS
+  local success='👍🏼'
+elif [[ "$OSTYPE" == "linux-gnu" ]]; then # Linux
+  local success='👍'
+fi
+
 
 # Machine name.
 function get_box_name {
