@@ -25,8 +25,9 @@ local white_bold=$fg_bold[white]
 
 local highlight_bg="%K{124}"
 
-local promptchar='$'
+local promptchar='➤'
 local fail='🔥'
+local success='👍'
 
 # Machine name.
 function get_box_name {
@@ -112,9 +113,9 @@ $(get_git_prompt) "
 
 function get_prompt_indicator {
     if [[ $? -eq 0 ]]; then
-        echo "%{$white%}$promptchar %{$reset_color%}"
+        echo "$success %{$white%}$promptchar %{$reset_color%}"
     else
-        echo "$fail "
+        echo "$fail %{$red%}$promptchar %{$reset_color%}"
     fi
 }
 
