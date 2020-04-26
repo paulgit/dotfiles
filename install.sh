@@ -15,7 +15,7 @@ SYSBINFILES="dp"
 
 if [[ "$OSTYPE" == "darwin"* ]]; then # macOS
   DOTFILES=$MACDOTFILES
-elif [[ "$OSTYPE" == "linux-gnu" ]]; then # Linux
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then # Linux
   DOTFILES=$LINUXDOTFILES
 fi
 
@@ -44,7 +44,7 @@ unset FILE;
 if [[ "$OSTYPE" == "darwin"* ]]; then # macOS
   # .zshrc file symbolic link
   ln -s "$INSTALLFOLDER/dotfiles/zshrc-macos" "$HOME/$ZSHRC"
-elif [[ "$OSTYPE" == "linux-gnu" ]]; then # Linux
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then # Linux
   # .zshrc file symbolic link
   ln -s "$INSTALLFOLDER/dotfiles/zshrc-linux" "$HOME/$ZSHRC"
 

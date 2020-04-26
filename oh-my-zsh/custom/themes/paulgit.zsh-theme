@@ -30,7 +30,7 @@ local fail='🔥'
 
 if [[ "$OSTYPE" == "darwin"* ]]; then # macOS
   local success='👍🏼'
-elif [[ "$OSTYPE" == "linux-gnu" ]]; then # Linux
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then # Linux
   local success='👍'
 fi
 
