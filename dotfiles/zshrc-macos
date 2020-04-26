@@ -124,7 +124,7 @@ alias path='echo -e ${PATH//:/\\n}'
 
 # Open specified files in specified editor
 # "edit" or "edit ." will open the current directory in editor
-EDITOR_OF_CHOICE="Atom.app"
+EDITOR_OF_CHOICE="BBEdit.app"
 _EDITOR_APP_LOCATION="`find /Applications/ -maxdepth 1 -type d -name "$EDITOR_OF_CHOICE"`"
 
 alias edit=_auto_open_editor
