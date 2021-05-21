@@ -123,9 +123,13 @@ alias dv="cd ~/Development"
 alias path='echo -e ${PATH//:/\\n}'
 
 # Apt aliases for an easy life
-alias update="brew -v update"
-alias upgrade="brew -v upgrade"
-alias clean="brew -v cleanup | brew -v autoremove"
+alias update="brew update"
+alias upgrade="brew upgrade"
+alias clean="brew cleanup | brew autoremove"
+alias updatev="brew -v update"
+alias upgradev="brew -v upgrade"
+alias cleanv="brew -v cleanup | brew -v autoremove"
+
 
 # Open specified files in specified editor
 # "edit" or "edit ." will open the current directory in editor
