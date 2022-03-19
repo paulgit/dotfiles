@@ -18,6 +18,11 @@ if [ -r "$HOME/.restic" ] && [ -f "$HOME/.restic" ]; then
   source "$HOME/.restic";
 fi
 
+# environment variables if it exists
+if [ -r "$HOME/.envvars" ] && [ -f "$HOME/.envvars" ]; then
+  source "$HOME/.envvars";
+fi
+
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
