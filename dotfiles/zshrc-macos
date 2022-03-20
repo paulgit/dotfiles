@@ -152,7 +152,7 @@ alias lsd="ls -lFG | grep --color=never '^d'"
 # Always use color output for `ls`
 alias ls="command ls -G"
 
-alias rs="cd ~/Resilio Sync"
+alias rs="cd ~/Resilio\ Sync"
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias dv="cd ~/Development"
