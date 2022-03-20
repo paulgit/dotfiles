@@ -1,5 +1,43 @@
-# If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/sbin:$PATH
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+  if ! [[ "$PATH" == *"$HOME/bin"* ]]; then
+		PATH="$HOME/bin:$PATH"
+	fi
+fi
+
+# set PATH so it local sbin if it exists
+if [ -d "/usr/local/sbin" ] ; then
+	if ! [[ "$PATH" == *"/usr/local/sbin"* ]]; then
+    PATH="/usr/local/sbin:$PATH"
+	fi
+fi
+
+# set PATH so it includes locsl bin if it exists
+if [ -d "/usr/local/bin" ] ; then
+	if ! [[ "$PATH" == *"/usr/local/bin"* ]]; then
+    PATH="/usr/local/bin:$PATH"
+	fi
+fi
+# * ~/.path can be used to extend `$PATH`.
+CUSTOMPATH="$HOME/.path"
+if [ -r "$CUSTOMPATH" ] && [ -f "$CUSTOMPATH" ]; then
+	PATHLIST=$(cat $CUSTOMPATH)
+	for PATHENTRY in $PATHLIST  
+	do
+		if ! [[ "$PATH" == *"$PATHENTRY"* ]]; then
+			PATH="$PATHENTRY:$PATH"
+		fi
+	done
+fi
+# restic config if it exists
+if [ -r "$HOME/.restic" ] && [ -f "$HOME/.restic" ]; then
+  source "$HOME/.restic";
+fi
+
+# environment variables if it exists
+if [ -r "$HOME/.envvars" ] && [ -f "$HOME/.envvars" ]; then
+  source "$HOME/.envvars";
+fi
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -24,7 +62,7 @@ ZSH_THEME="paulgit"
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to automatically update without prompting.
 # DISABLE_UPDATE_PROMPT="true"
@@ -124,10 +162,10 @@ alias path='echo -e ${PATH//:/\\n}'
 
 # Apt aliases for an easy life
 alias update="brew update"
-alias upgrade="brew upgrade"
+alias upgrade="omz update; brew upgrade"
 alias clean="brew cleanup | brew autoremove"
 alias updatev="brew -v update"
-alias upgradev="brew -v upgrade"
+alias upgradev="omz update; brew -v upgrade"
 alias cleanv="brew -v cleanup | brew -v autoremove"
 
 
