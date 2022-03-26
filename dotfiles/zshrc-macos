@@ -162,11 +162,10 @@ alias path='echo -e ${PATH//:/\\n}'
 
 # Apt aliases for an easy life
 alias update="brew update"
-alias upgrade="omz update; brew upgrade"
-alias clean="brew cleanup | brew autoremove"
+alias clean="brew cleanup; brew autoremove"
 alias updatev="brew -v update"
 alias upgradev="omz update; brew -v upgrade"
-alias cleanv="brew -v cleanup | brew -v autoremove"
+alias cleanv="brew -v cleanup; brew -v autoremove"
 
 
 # Open specified files in specified editor

@@ -154,7 +154,7 @@ alias path='echo -e ${PATH//:/\\n}'
 
 # Apt aliases for an easy life
 alias update="sudo apt update"
-alias upgrade="omz update; sudo apt upgrade"
+alias upgrade="sudo apt upgrade; omz update"
 alias clean="sudo apt autoremove"
 
 # HSTR configuration
