@@ -162,10 +162,10 @@ alias path='echo -e ${PATH//:/\\n}'
 
 # Apt aliases for an easy life
 alias update="brew update"
-alias upgrade="omz update; brew upgrade"
+alias upgrade="brew upgrade; omz update"
 alias clean="brew cleanup; brew autoremove"
 alias updatev="brew -v update"
-alias upgradev="omz update; brew -v upgrade"
+alias upgradev="brew -v upgrade; omz update"
 alias cleanv="brew -v cleanup; brew -v autoremove"
 
 
