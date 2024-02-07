@@ -1,6 +1,6 @@
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
-  if ! [[ "$PATH" == *"$HOME/bin"* ]]; then
+	if ! [[ "$PATH" == *"$HOME/bin"* ]]; then
 		PATH="$HOME/bin:$PATH"
 	fi
 fi
@@ -8,7 +8,7 @@ fi
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/.local/bin" ] ; then
 	if ! [[ "$PATH" == *"$HOME/.local/bin"* ]]; then
-    PATH="$HOME/.local/bin:$PATH"
+		PATH="$HOME/.local/bin:$PATH"
 	fi
 fi
 
@@ -16,7 +16,7 @@ fi
 CUSTOMPATH="$HOME/.path"
 if [ -r "$CUSTOMPATH" ] && [ -f "$CUSTOMPATH" ]; then
 	PATHLIST=$(cat $CUSTOMPATH)
-	for PATHENTRY in $PATHLIST  
+	for PATHENTRY in $PATHLIST	
 	do
 		if ! [[ "$PATH" == *"$PATHENTRY"* ]]; then
 			PATH="$PATHENTRY:$PATH"
@@ -26,12 +26,12 @@ fi
 
 # restic config if it exists
 if [ -r "$HOME/.restic" ] && [ -f "$HOME/.restic" ]; then
-  source "$HOME/.restic";
+	source "$HOME/.restic";
 fi
 
 # environment variables if it exists
 if [ -r "$HOME/.envvars" ] && [ -f "$HOME/.envvars" ]; then
-  source "$HOME/.envvars";
+	source "$HOME/.envvars";
 fi
 
 # Path to your oh-my-zsh installation.
@@ -118,9 +118,9 @@ export LS_COLORS="di=1;36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
+#		export EDITOR='vim'
 # else
-#   export EDITOR='mvim'
+#		export EDITOR='mvim'
 # fi
 
 # Compilation flags
@@ -135,7 +135,6 @@ export LS_COLORS="di=1;36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 # Easier navigation: .., ..., ...., ....., ~ and -
-alias tm='tmux attach || tmux'
 
 # List all files colorized in long format
 alias l="ls -lF --color"
@@ -158,30 +157,20 @@ alias upgrade="sudo apt upgrade; omz update"
 alias clean="sudo apt autoremove"
 
 # HSTR configuration
-alias hh=hstr                     # hh to be alias for hstr
-export HISTFILE=~/.zsh_history    # ensure history file visibility
-export HSTR_CONFIG=hicolor        # get more colors
-bindkey -s "\C-r" "\eqhstr\n"     # bind hstr to Ctrl-r (for Vi mode check doc)
+alias hh=hstr											# hh to be alias for hstr
+export HISTFILE=~/.zsh_history		# ensure history file visibility
+export HSTR_CONFIG=hicolor				# get more colors
+bindkey -s "\C-r" "\eqhstr\n"			# bind hstr to Ctrl-r (for Vi mode check doc)
 
-if [[ -e "$HOME/.tmuxenabled" ]]; then
-	# Handle tmux stuff
-	if [[ "${USER}" != "root" ]]; then
-	  # Override the exit command so that it detaches from tmux if run in tmux
-	  exit() {
-		  if [[ -z $TMUX ]]; then
-	      builtin exit
-		  else
-	      tmux detach
-		  fi
-	  }
-
-	  # Re-attach to an existing tmux session
-	  if [[ -z "$TMUX" ]]; then
-	    if tmux has-session 2>/dev/null; then
-	      exec tmux attach
-	    else
-	      exec tmux
-	    fi
-	  fi
-	fi
+# Handle tmux stuff
+if [[ "${USER}" != "root" ]]; then
+	# Override the exit command so that it detaches from tmux if run in tmux
+	exit() {
+		if [[ -z $TMUX ]]; then
+			builtin exit
+		else
+			tmux detach
+		fi
+	}
 fi
+
