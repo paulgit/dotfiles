@@ -1,0 +1,4 @@
+#!/bin/bash
+
+script_dir=$(dirname "$(realpath "$0")")
+python3 $script_dir/it.py $1 -p "tmux" -c "/opt/homebrew/bin/et -c \"tmux -CC new -A -s main\""
