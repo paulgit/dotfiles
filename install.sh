@@ -46,11 +46,11 @@ unset FILE;
 if [[ "$OSTYPE" == "darwin"* ]]; then # macOS
 	# .zshrc file symbolic link
 	ln -s "$INSTALLFOLDER/dotfiles/zshrc-macos" "$HOME/$ZSHRC"
-	USERLOCALBINFILES=$MACUSRLOCALBINFILES
+	USRLOCALBINFILES=$MACUSRLOCALBINFILES
 elif [[ "$OSTYPE" == "linux-gnu"* ]]; then # Linux
 	# .zshrc file symbolic link
 	ln -s "$INSTALLFOLDER/dotfiles/zshrc-linux" "$HOME/$ZSHRC"
-	USERLOCALBINFILES=$LINUXUSRLOCALBINFILES
+	USRLOCALBINFILES=$LINUXUSRLOCALBINFILES
 fi
 
 # Copy system wide fies to /usr/local/bin (if they don't already exist)
