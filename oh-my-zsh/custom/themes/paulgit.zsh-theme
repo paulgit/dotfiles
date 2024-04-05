@@ -26,25 +26,28 @@ autoload -Uz vcs_info
 
 # Use True color (24-bit) if available.
 if [[ "${terminfo[colors]}" -ge 256 ]]; then
-    oxide_turquoise="%F{73}"
-    oxide_orange="%F{179}"
-    oxide_red="%F{167}"
-    oxide_limegreen="%F{107}"
+    local turquoise="%F{73}"
+    local orange="%F{179}"
+    local red="%F{167}"
+    local limegreen="%F{107}"
 else
-    oxide_turquoise="%F{cyan}"
-    oxide_orange="%F{yellow}"
-    oxide_red="%F{red}"
-    oxide_limegreen="%F{green}"
+    local turquoise="%F{cyan}"
+    local orange="%F{yellow}"
+    local red="%F{red}"
+    local limegreen="%F{green}"
 fi
 
+local highlight_bg="%K{124}"
+local white="%F{15}"
+
 # Reset color.
-oxide_reset_color="%f"
+local reset_color="%f"
 
 # VCS style formats.
-FMT_UNSTAGED="%{$oxide_reset_color%} %{$oxide_orange%}●"
-FMT_STAGED="%{$oxide_reset_color%} %{$oxide_limegreen%}✚"
-FMT_ACTION="(%{$oxide_limegreen%}%a%{$oxide_reset_color%})"
-FMT_VCS_STATUS="on %{$oxide_turquoise%} %b%u%c%{$oxide_reset_color%}"
+FMT_UNSTAGED="%{$reset_color%} %{$orange%}●"
+FMT_STAGED="%{$reset_color%} %{$limegreen%}✚"
+FMT_ACTION="(%{$limegreen%}%a%{$reset_color%})"
+FMT_VCS_STATUS="on %{$turquoise%} %b%u%c%{$reset_color%}"
 
 zstyle ':vcs_info:*' enable git svn
 zstyle ':vcs_info:*' check-for-changes true
@@ -68,7 +71,7 @@ function get_usr_name {
 +vi-git-untracked() {
     if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
             git status --porcelain | grep --max-count=1 '^??' &> /dev/null; then
-        hook_com[staged]+="%{$oxide_reset_color%} %{$oxide_red%}●"
+        hook_com[staged]+="%{$reset_color%} %{$red%}●"
     fi
 }
 
@@ -76,4 +79,4 @@ function get_usr_name {
 add-zsh-hook precmd vcs_info
 
 # Oxide prompt style.
-PROMPT=$'\n%{$oxide_red%}$(get_usr_name) %{%F{white}%}at %{$oxide_orange%}%m: %{$oxide_limegreen%}%~%{$oxide_reset_color%} ${vcs_info_msg_0_}\n%(?.%{%F{white}%}.%{$oxide_red%})%(!.#.❯)%{$oxide_reset_color%} '
+PROMPT=$'\n%{$red%}$(get_usr_name) %{%F{white}%}at %{$orange%}%m: %{$limegreen%}%~%{$reset_color%} ${vcs_info_msg_0_}\n%(?.%{%F{white}%}.%{$red%})%(!.#.❯)%{$reset_color%} '
