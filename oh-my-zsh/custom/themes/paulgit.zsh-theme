@@ -40,9 +40,6 @@ fi
 local highlight_bg="%K{124}"
 local white="%F{15}"
 
-# Reset color.
-local reset_color="%f"
-
 # VCS style formats.
 FMT_UNSTAGED="%{$reset_color%} %{$orange%}●"
 FMT_STAGED="%{$reset_color%} %{$limegreen%}✚"
